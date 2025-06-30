@@ -1,14 +1,22 @@
-import express from 'express'
 import 'reflect-metadata'
+import express from 'express'
+import swaggerUi from 'swagger-ui-express'
+import { swaggerSpec } from './docs/swagger'
 import authRoutes from './routes/authRoutes'
 
 const app = express()
+
 app.use(express.json())
 
+// Rotas
 app.use('/auth', authRoutes)
 
-const PORT = 3000
+// Documentação Swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
+// Inicialização do servidor
+const PORT = 3000
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`)
+  console.log(`Documentação disponível em http://localhost:${PORT}/api-docs`)
 })

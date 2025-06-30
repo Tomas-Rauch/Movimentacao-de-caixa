@@ -10,7 +10,8 @@
     "emitDecoratorMetadata": true,
     "outDir": "dist",
     "resolveJsonModule": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src"],
   "exclude": ["node_modules"]

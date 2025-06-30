@@ -1,49 +1,71 @@
-import { AppDataSource } from '../database/data-source'
-import { User } from '../models/user'
+import { supabase } from '../database/supabaseClient'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-
-const userRepo = AppDataSource.getRepository(User)
 
 const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'access_default'
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'refresh_default'
 
 export class AuthService {
   static async registrarUsuario(email: string, senha: string, role?: 'admin' | 'user') {
-    const existe = await userRepo.findOneBy({ email })
-    if (existe) throw new Error('Email já cadastrado')
+    // Verifica se já existe usuário com o email
+    const { data: existe, error: errorExiste } = await supabase
+      .from('users')
+      .select('id')
+      .eq('email', email)
+      .single();
 
-    const totalUsuarios = await userRepo.count()
-    const senhaHash = await bcrypt.hash(senha, 12)
+    if (errorExiste && errorExiste.code !== 'PGRST116') throw new Error('Erro ao buscar usuário');
+    if (existe) throw new Error('Email já cadastrado');
 
-    const novoUsuario = userRepo.create({
-      email,
-      password: senhaHash,
-      role: totalUsuarios === 0 ? 'admin' : role || 'user',
-    })
+    // Conta quantos usuários existem para definir o primeiro como admin
+    const { count: totalUsuarios, error: errorCount } = await supabase
+      .from('users')
+      .select('id', { count: 'exact', head: true });
 
-    return await userRepo.save(novoUsuario)
+    if (errorCount) throw new Error('Erro ao contar usuários');
+
+    const senhaHash = await bcrypt.hash(senha, 12);
+
+    const { data: novoUsuario, error: errorInsert } = await supabase
+      .from('users')
+      .insert([{
+        email,
+        password: senhaHash,
+        role: (totalUsuarios === 0) ? 'admin' : (role || 'user'),
+      }])
+      .select()
+      .single();
+
+    if (errorInsert) throw new Error('Erro ao criar usuário');
+
+    return novoUsuario;
   }
 
   static async login(email: string, senha: string) {
-    const usuario = await userRepo.findOneBy({ email })
-    if (!usuario) throw new Error('Credenciais inválidas')
+    const { data: usuario, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', email)
+      .single();
 
-    const senhaCorreta = await bcrypt.compare(senha, usuario.password)
-    if (!senhaCorreta) throw new Error('Credenciais inválidas')
+    if (error) throw new Error('Erro ao buscar usuário');
+    if (!usuario) throw new Error('Credenciais inválidas');
+
+    const senhaCorreta = await bcrypt.compare(senha, usuario.password);
+    if (!senhaCorreta) throw new Error('Credenciais inválidas');
 
     const accessToken = jwt.sign(
       { id: usuario.id, email: usuario.email, role: usuario.role },
       JWT_ACCESS_SECRET,
       { expiresIn: '15m' }
-    )
+    );
 
     const refreshToken = jwt.sign(
       { id: usuario.id },
       JWT_REFRESH_SECRET,
       { expiresIn: '7d' }
-    )
+    );
 
-    return { accessToken, refreshToken }
+    return { accessToken, refreshToken };
   }
 }

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { AuthService } from '../services/authService'
+import jwt from 'jsonwebtoken'
 
 export const authController = {
   async registrar(req: Request, res: Response) {
@@ -21,6 +22,29 @@ export const authController = {
       res.status(200).json(tokens)
     } catch (error) {
       res.status(401).json({ message: (error as Error).message })
+    }
+  },
+
+  async refresh(req: Request, res: Response) {
+    const refreshToken = req.body.refreshToken
+
+    if (!refreshToken) return res.status(401).json({ message: 'Token ausente' })
+
+    try {
+      const decoded = jwt.verify(
+        refreshToken,
+        process.env.JWT_REFRESH_SECRET || 'refresh_default'
+      ) as any
+
+      const accessToken = jwt.sign(
+        { id: decoded.id },
+        process.env.JWT_ACCESS_SECRET || 'access_default',
+        { expiresIn: '15m' }
+      )
+
+      res.status(200).json({ accessToken })
+    } catch (error) {
+      res.status(403).json({ message: 'Token inválido ou expirado' })
     }
   }
 }

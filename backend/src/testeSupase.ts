@@ -1,4 +1,4 @@
-import { supabase } from '../database/supabaseClient'
+import { supabase } from './database/supabaseClient'
 import 'dotenv/config'
 
 async function testarConexao() {
