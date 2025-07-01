@@ -4,10 +4,10 @@ import jwt from 'jsonwebtoken'
 
 export const authController = {
   async registrar(req: Request, res: Response) {
-    const { email, password, role } = req.body
+    const { nome, email, password, role } = req.body
 
     try {
-      const usuario = await AuthService.registrarUsuario(email, password, role)
+      const usuario = await AuthService.registrarUsuario(nome, email, password, role)
       res.status(201).json({ message: 'Usuário criado com sucesso', usuario })
     } catch (error) {
       res.status(400).json({ message: (error as Error).message })
