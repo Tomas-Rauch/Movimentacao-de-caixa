@@ -1,6 +1,8 @@
 import { supabase } from '../database/supabaseClient'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import crypto from 'crypto'
+import { sendEmail } from '../utils/mailer'
 
 const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'access_default'
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'refresh_default'
@@ -41,8 +43,13 @@ export class AuthService {
     console.error('❌ Erro no insert:', error)
     throw new Error('Erro ao registrar usuário')
   }
+  const dataSemSenha = data?.map(usuario => {
+    const { senha, ...semSenha } = usuario
+    return semSenha
+  })
 
-  return data
+
+  return dataSemSenha
 }
 
 
@@ -71,5 +78,57 @@ export class AuthService {
     )
 
     return { accessToken, refreshToken }
+  }
+
+  static async forgotPassword(email: string) {
+    const { data: usuario, error } = await supabase
+      .from('usuarios')
+      .select('*')
+      .eq('email', email)
+      .single()
+
+    if (!usuario) return // Não revela se existe
+
+    const token = crypto.randomBytes(32).toString('hex')
+    const expiry = new Date(Date.now() + 1000 * 60 * 30) // 30 minutos
+
+    await supabase
+      .from('usuarios')
+      .update({ resetPasswordToken: token, resetTokenExpiry: expiry.toISOString() })
+      .eq('id', usuario.id)
+
+    const link = `https://seusite.com/reset?token=${token}` // Altere para sua URL real
+    await sendEmail(
+      usuario.email,
+      'Recuperação de senha',
+      `<p>Para redefinir sua senha, clique no link: <a href="${link}">${link}</a></p>`
+    ) 
+
+
+  }
+
+  static async resetPassword(token: string, newPassword: string) {
+    const { data: usuario, error } = await supabase
+      .from('usuarios')
+      .select('*')
+      .eq('resetPasswordToken', token)
+      .single()
+
+    if (!usuario) throw new Error('Token inválido')
+
+    const now = new Date()
+    if (!usuario.resetTokenExpiry || new Date(usuario.resetTokenExpiry) < now)
+      throw new Error('Token expirado')
+
+    const hash = await bcrypt.hash(newPassword, 12)
+
+    await supabase
+      .from('usuarios')
+      .update({
+        senha: hash,
+        resetPasswordToken: null,
+        resetTokenExpiry: null,
+      })
+      .eq('id', usuario.id)
   }
 }

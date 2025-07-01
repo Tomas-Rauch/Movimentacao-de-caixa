@@ -1,16 +1,54 @@
-import React, { useState } from 'react';
-import '../styles/Login.css';
+import React, { useState } from 'react'
+import '../styles/Login.css'
 
 const Login: React.FC = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [rememberMe, setRememberMe] = useState(false)
+  const [erro, setErro] = useState('')
+  const [carregando, setCarregando] = useState(false)
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setErro('')
+    setCarregando(true)
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Login attempt:', { email, password, rememberMe });
-  };
+    try {
+      const response = await fetch('http://localhost:3000/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      })
+
+      if (!response.ok) {
+        const erroResposta = await response.json()
+        throw new Error(erroResposta.message || 'Erro ao fazer login')
+      }
+
+      const { accessToken, refreshToken } = await response.json()
+
+      // Armazena tokens
+      if (rememberMe) {
+        localStorage.setItem('accessToken', accessToken)
+        localStorage.setItem('refreshToken', refreshToken)
+      } else {
+        sessionStorage.setItem('accessToken', accessToken)
+        sessionStorage.setItem('refreshToken', refreshToken)
+      }
+
+      alert('Login bem-sucedido!')
+      
+      // Redireciona após login
+      window.location.href = '/dashboard'
+
+    } catch (err: any) {
+      setErro(err.message)
+    } finally {
+      setCarregando(false)
+    }
+  }
 
   return (
     <div className="login-container">
@@ -29,7 +67,7 @@ const Login: React.FC = () => {
 
         <div className="detective-container">
           <img 
-            src="/img/detetive.png" 
+            src="/img/detetive.jpg" 
             alt="Logo Detetive" 
             className="detective-logo"
           />
@@ -79,17 +117,19 @@ const Login: React.FC = () => {
             </a>
           </div>
 
-          <button type="submit" className="login-button">
-            ENTRAR
+          <button type="submit" className="login-button" disabled={carregando}>
+            {carregando ? 'Entrando...' : 'ENTRAR'}
           </button>
 
+          {erro && <p style={{ color: 'red', marginTop: '10px' }}>{erro}</p>}
+
           <div className="signup-link">
-            Não tem uma conta? <a href="#cadastro">Cadastre-se</a>
+            Não tem uma conta? <a href="/cadastro">Cadastre-se</a>
           </div>
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

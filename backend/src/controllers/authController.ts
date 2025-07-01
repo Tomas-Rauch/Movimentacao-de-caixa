@@ -46,5 +46,25 @@ export const authController = {
     } catch (error) {
       res.status(403).json({ message: 'Token inválido ou expirado' })
     }
-  }
+  },
+
+  async forgotPassword(req: Request, res: Response) {
+    const { email } = req.body
+    try {
+      await AuthService.forgotPassword(email)
+      res.status(200).json({ message: 'Se o email existir, um link foi enviado.' })
+    } catch (error) {
+      res.status(400).json({ message: (error as Error).message })
+    }
+  },
+
+  async resetPassword(req: Request, res: Response) {
+    const { token, newPassword } = req.body
+    try {
+      await AuthService.resetPassword(token, newPassword)
+      res.status(200).json({ message: 'Senha redefinida com sucesso' })
+    } catch (error) {
+      res.status(400).json({ message: (error as Error).message })
+    }
+  },
 }

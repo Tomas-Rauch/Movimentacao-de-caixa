@@ -1,11 +1,14 @@
 import 'reflect-metadata'
 import express from 'express'
+import cors from 'cors'
 import swaggerUi from 'swagger-ui-express'
 import { swaggerSpec } from './docs/swagger'
 import authRoutes from './routes/authRoutes'
 
 const app = express()
 
+// Middlewares
+app.use(cors())
 app.use(express.json())
 
 // Rotas
