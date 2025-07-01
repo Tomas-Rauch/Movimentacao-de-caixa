@@ -94,10 +94,10 @@ export class AuthService {
 
     await supabase
       .from('usuarios')
-      .update({ resetPasswordToken: token, resetTokenExpiry: expiry.toISOString() })
+      .update({ reset_token: token, reset_token_expiracao: expiry.toISOString() })
       .eq('id', usuario.id)
 
-    const link = `https://seusite.com/reset?token=${token}` // Altere para sua URL real
+   const link = `http://localhost:5173/reset-password?token=${token}`
     await sendEmail(
       usuario.email,
       'Recuperação de senha',
@@ -111,13 +111,13 @@ export class AuthService {
     const { data: usuario, error } = await supabase
       .from('usuarios')
       .select('*')
-      .eq('resetPasswordToken', token)
+      .eq('reset_token', token)
       .single()
 
     if (!usuario) throw new Error('Token inválido')
 
     const now = new Date()
-    if (!usuario.resetTokenExpiry || new Date(usuario.resetTokenExpiry) < now)
+    if (!usuario.reset_token_expiracao || new Date(usuario.reset_token_expiracao) < now)
       throw new Error('Token expirado')
 
     const hash = await bcrypt.hash(newPassword, 12)
@@ -126,8 +126,8 @@ export class AuthService {
       .from('usuarios')
       .update({
         senha: hash,
-        resetPasswordToken: null,
-        resetTokenExpiry: null,
+        reset_token: null,
+        reset_token_expiracao: null,
       })
       .eq('id', usuario.id)
   }
