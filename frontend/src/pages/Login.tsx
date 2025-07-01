@@ -8,6 +8,11 @@ const Login: React.FC = () => {
   const [erro, setErro] = useState('')
   const [carregando, setCarregando] = useState(false)
 
+  // Modal recuperação
+  const [modalAberto, setModalAberto] = useState(false)
+  const [emailRecuperacao, setEmailRecuperacao] = useState('')
+  const [recuperacaoMsg, setRecuperacaoMsg] = useState('')
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setErro('')
@@ -16,9 +21,7 @@ const Login: React.FC = () => {
     try {
       const response = await fetch('http://localhost:3000/auth/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       })
 
@@ -29,7 +32,6 @@ const Login: React.FC = () => {
 
       const { accessToken, refreshToken } = await response.json()
 
-      // Armazena tokens
       if (rememberMe) {
         localStorage.setItem('accessToken', accessToken)
         localStorage.setItem('refreshToken', refreshToken)
@@ -39,14 +41,32 @@ const Login: React.FC = () => {
       }
 
       alert('Login bem-sucedido!')
-      
-      // Redireciona após login
-      window.location.href = '/dashboard'
+      // window.location.href = '/dashboard'
 
     } catch (err: any) {
       setErro(err.message)
     } finally {
       setCarregando(false)
+    }
+  }
+
+  const handleRecuperarSenha = async () => {
+    setRecuperacaoMsg('')
+    try {
+      const res = await fetch('http://localhost:3000/auth/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: emailRecuperacao }),
+      })
+
+      const data = await res.json()
+      if (res.ok) {
+        setRecuperacaoMsg(data.message || 'Se o email existir, um link foi enviado.')
+      } else {
+        setRecuperacaoMsg(data.message || 'Erro ao solicitar recuperação.')
+      }
+    } catch {
+      setRecuperacaoMsg('Erro inesperado ao tentar recuperar a senha.')
     }
   }
 
@@ -112,7 +132,14 @@ const Login: React.FC = () => {
               />
               Lembrar de mim
             </label>
-            <a href="#" className="forgot-password">
+            <a
+              href="#"
+              className="forgot-password"
+              onClick={(e) => {
+                e.preventDefault()
+                setModalAberto(true)
+              }}
+            >
               Esqueceu a senha?
             </a>
           </div>
@@ -128,6 +155,24 @@ const Login: React.FC = () => {
           </div>
         </form>
       </div>
+
+      {/* Modal de recuperação */}
+      {modalAberto && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Recuperar Senha</h3>
+            <input
+              type="email"
+              placeholder="Digite seu email"
+              value={emailRecuperacao}
+              onChange={(e) => setEmailRecuperacao(e.target.value)}
+            />
+            <button onClick={handleRecuperarSenha}>Enviar link</button>
+            {recuperacaoMsg && <p>{recuperacaoMsg}</p>}
+            <button onClick={() => setModalAberto(false)}>Fechar</button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

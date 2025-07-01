@@ -9,8 +9,8 @@ export async function login(email: string, password: string) {
   })
 
   if (!response.ok) {
-    const erro = await response.json()
-    throw new Error(erro.message || 'Erro ao fazer login')
+    const erro = await response.json();
+throw new Error(JSON.stringify(erro));
   }
 
   return response.json() // accessToken e refreshToken

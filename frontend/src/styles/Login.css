@@ -6,84 +6,71 @@
 
 html, body {
   height: 100%;
-  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
 
 .login-container {
   display: flex;
-  height: 100vh;
+  flex-wrap: wrap;
+  min-height: 100vh;
   width: 100vw;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
 
+/* Esquerda */
 .login-left {
-  flex: 1;
+  flex: 1 1 300px;
   background: #1e5db8;
   color: white;
+  padding: 2rem 3rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 2rem 3rem;
-  padding-top: 1.5rem;
   text-align: left;
   position: relative;
 }
 
 .login-left h1 {
-  font-size: 3.6rem;
+  font-size: 2.5rem;
   font-weight: 600;
   margin-bottom: 2rem;
-  margin-top: 1rem;
-  line-height: 1.15;
-  text-align: left;
-  max-width: 450px;
-  letter-spacing: -0.02em;
+  line-height: 1.2;
+  max-width: 90%;
 }
 
 .login-left p {
-  font-size: 1.5rem;
-  margin-bottom: 0.4rem;
+  font-size: 1.1rem;
   opacity: 0.92;
-  text-align: left;
-  max-width: 420px;
-  line-height: 1.45;
+  max-width: 90%;
+  line-height: 1.5;
   font-weight: 300;
-  letter-spacing: 0.02em;
-}
-
-.login-description {
-  margin-bottom: 5rem;
+  margin-bottom: 1rem;
 }
 
 .detective-container {
   width: 100%;
   max-width: 320px;
-  height: auto;
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
   margin-top: auto;
-  margin-bottom: 0;
-  position: absolute;
-  bottom: -10px;
-  left: 3rem;
 }
 
 .detective-logo {
   width: 100%;
-  max-width: 320px;
   height: auto;
   object-fit: contain;
 }
 
+/* Direita */
 .login-right {
-  flex: 1;
+  flex: 1 1 300px;
   background: #f8f9fa;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  width: 100%;
 }
 
 .login-form {
@@ -105,7 +92,7 @@ html, body {
   text-align: center;
   font-size: 0.95rem;
   color: #555;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   font-weight: 400;
 }
 
@@ -128,7 +115,6 @@ html, body {
   border-radius: 6px;
   font-size: 0.95rem;
   background-color: white;
-  font-family: inherit;
 }
 
 .form-group input:focus {
@@ -143,6 +129,8 @@ html, body {
   align-items: center;
   font-size: 0.9rem;
   margin: 1.5rem 0;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .remember-me {
@@ -153,7 +141,6 @@ html, body {
 
 .remember-me input {
   margin-right: 0.5rem;
-  width: auto;
 }
 
 .forgot-password {
@@ -203,28 +190,61 @@ html, body {
   text-decoration: underline;
 }
 
-@media (max-width: 768px) {
-  .login-container {
-    flex-direction: column;
-  }
-  
-  .login-left {
-    padding: 2rem;
-    align-items: center;
-    text-align: center;
-  }
-  
-  .login-left h1 {
-    font-size: 2.2rem;
-    text-align: center;
-  }
-  
-  .login-left p {
-    text-align: center;
-  }
-  
-  .detective-container {
-    justify-content: center;
-    margin-top: 2rem;
-  }
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 320px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h3 {
+  margin-bottom: 1rem;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.modal-content button {
+  padding: 0.6rem 1.2rem;
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+  background-color: #1e5db8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+
+.modal-content button:hover {
+  background-color: #174c99;
+}
+
+.modal-content p {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  color: #333;
 }
