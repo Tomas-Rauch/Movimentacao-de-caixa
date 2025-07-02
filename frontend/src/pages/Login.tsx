@@ -41,7 +41,9 @@ const Login: React.FC = () => {
       }
 
       alert('Login bem-sucedido!')
-      // window.location.href = '/dashboard'
+      
+      // Redireciona após login
+      window.location.href = '/dashboard'
 
     } catch (err: any) {
       setErro(err.message)
