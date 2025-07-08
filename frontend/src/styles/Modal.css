@@ -1,0 +1,269 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 12px;
+  padding: 28px 32px;
+  width: 100%;
+  max-width: 800px;
+  min-width: 500px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  font-family: system-ui, sans-serif;
+  color: #1f2937;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.modal-content h2 {
+  font-weight: 600;
+  margin-bottom: 20px;
+  font-size: 1.25rem;
+  color: #1f2937;
+  padding-left: 4px; 
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.modal-close-btn:hover {
+  background-color: #f3f4f6;
+}
+
+.btn-group {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.btn-type {
+  flex: 1;
+  padding: 16px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #e5e7eb;
+  color: #374151;
+  transition: all 0.3s ease;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70px;
+  text-align: center;
+}
+
+.btn-type .btn-subtext {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  margin-top: 4px;
+  font-weight: 400;
+}
+
+.btn-type.active.entrada {
+  background-color: #16a34a;
+  color: white;
+}
+
+.btn-type.active.saida {
+  background-color: #dc2626;
+  color: white;
+}
+
+.btn-type:hover:not(.active) {
+  background-color: #d1d5db;
+}
+
+.form-movimentacao {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 24px;
+  margin-top: 4px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group:nth-child(2) {
+  grid-column: 1 / -1;
+}
+
+.modal-buttons {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #374151;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #2563eb;
+  outline: none;
+}
+
+.form-group input::placeholder {
+  color: #9ca3af;
+}
+
+.form-group input[type="date"] {
+  color: #374151;
+}
+
+.form-group input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn-cancel,
+.btn-save {
+  flex: 1;
+  padding: 12px 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-cancel {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.btn-cancel:hover {
+  background-color: #e5e7eb;
+}
+
+.btn-save {
+  background-color: #1e40af;
+  color: white;
+}
+
+.btn-save:hover {
+  background-color: #1e3a8a;
+}
+
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 16px;
+  }
+  
+  .modal-content {
+    max-width: 100%;
+    min-width: 280px;
+    padding: 20px;
+  }
+  
+  .form-movimentacao {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .form-group:nth-child(2) {
+    grid-column: 1;
+  }
+  
+  .modal-buttons {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-overlay {
+    padding: 12px;
+  }
+  
+  .modal-content {
+    padding: 16px;
+    max-height: 95vh;
+  }
+  
+  .btn-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .btn-type {
+    min-height: 60px;
+    padding: 12px;
+  }
+  
+  .modal-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .btn-cancel,
+  .btn-save {
+    padding: 14px 0;
+  }
+}
+
+@media (max-width: 320px) {
+  .modal-content {
+    padding: 12px;
+  }
+  
+  .modal-content h2 {
+    font-size: 1.1rem;
+  }
+  
+  .btn-type {
+    font-size: 0.9rem;
+    min-height: 50px;
+  }
+}

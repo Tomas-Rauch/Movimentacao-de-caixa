@@ -16,7 +16,6 @@ html, body {
   width: 100vw;
 }
 
-/* Esquerda */
 .login-left {
   flex: 1 1 300px;
   background: #1e5db8;
@@ -62,7 +61,6 @@ html, body {
   object-fit: contain;
 }
 
-/* Direita */
 .login-right {
   flex: 1 1 300px;
   background: #f8f9fa;
@@ -190,7 +188,6 @@ html, body {
   text-decoration: underline;
 }
 
-/* Modal */
 .modal {
   position: fixed;
   top: 0;
