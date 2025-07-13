@@ -103,7 +103,7 @@ const Dashboard = () => {
             <button className="btn">
               <User className="icon" /> Perfil
             </button>
-            <button className="btn-icon"><LogOut className="icon" /></button>
+            <button className="btn-icon" aria-label="Sair" title="Sair"><LogOut className="icon" /></button>
           </div>
         </div>
       </header>
@@ -172,16 +172,23 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <div className="filter">
-                    <label>Tipo:</label>
-                    <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
+                    <label htmlFor="tipo-select">Tipo:</label>
+                    <select
+                      id="tipo-select"
+                      value={selectedType}
+                      onChange={(e) => setSelectedType(e.target.value)}
+                    >
                       <option value="Todas">Todas</option>
                       <option value="entrada">Entradas</option>
                       <option value="saida">Saídas</option>
                     </select>
                   </div>
                   <div className="filter">
-                    <label>Categoria:</label>
-                    <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+                    <label htmlFor="categoria-select">Categoria:</label>
+                    <select
+                      id="categoria-select"
+                      value={selectedCategory}
+                      onChange={(e) => setSelectedCategory(e.target.value)}>
                       <option value="Todas">Todas</option>
                       <option value="Vendas">Vendas</option>
                       <option value="Veiculos Frete">Veículos Frete</option>

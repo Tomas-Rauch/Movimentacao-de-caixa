@@ -48,7 +48,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, onSave }) => {
   return (
     <div className="modal-overlay" onClick={handleOverlayClick}>
       <div className="modal-content">
-        <button className="modal-close-btn" onClick={handleClose}>
+        <button className="modal-close-btn" onClick={handleClose} title="Fechar modal">
           <X size={20} />
         </button>
 
@@ -101,8 +101,10 @@ const Modal: React.FC<ModalProps> = ({ onClose, onSave }) => {
           </div>
 
           <div className="form-group">
-            <label>Categoria: *</label>
+            <label htmlFor="categoria-select">Categoria: *</label>
             <select
+              id="categoria-select"
+              title="Selecione a categoria da movimentação"
               value={formData.categoria}
               onChange={(e) => setFormData({ ...formData, categoria: e.target.value })}
               required
@@ -124,6 +126,8 @@ const Modal: React.FC<ModalProps> = ({ onClose, onSave }) => {
               value={formData.data}
               onChange={(e) => setFormData({ ...formData, data: e.target.value })}
               required
+              title="Selecione a data da movimentação"
+              placeholder="Selecione a data"
             />
           </div>
 
