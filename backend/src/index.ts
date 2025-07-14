@@ -4,6 +4,8 @@ import cors from 'cors'
 import swaggerUi from 'swagger-ui-express'
 import { swaggerSpec } from './docs/swagger'
 import authRoutes from './routes/authRoutes'
+import movimentacaoRoutes from './routes/movimentacaoRoutes';
+import categoriaRoutes from './routes/categoriaRoutes';
 
 const app = express()
 
@@ -13,6 +15,9 @@ app.use(express.json())
 
 // Rotas
 app.use('/auth', authRoutes)
+
+app.use('/movimentacoes', movimentacaoRoutes);
+app.use('/categorias', categoriaRoutes);
 
 // Documentação Swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))

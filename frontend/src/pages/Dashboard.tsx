@@ -1,76 +1,61 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import { Search, Plus, User, ArrowUp, ArrowDown, LayoutDashboard, LogOut } from 'lucide-react';
-import Modal from './Modal'; // Importar o componente Modal
+import Modal from './Modal';
 import '../styles/Dashboard.css';
-
-interface Movimentacao {
-  date: string;
-  description: string;
-  type: string;
-  category: string;
-  docs: string;
-  value: string;
-}
+import { getMovimentacoes, createMovimentacao } from '../services/movimentacaoApi';
 
 const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('Todas');
   const [selectedCategory, setSelectedCategory] = useState('Todas');
-  const [activeSection, setActiveSection] = useState('Dashboard'); 
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar o modal
+  const [activeSection, setActiveSection] = useState('Dashboard');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [movimentacoes, setMovimentacoes] = useState<any[]>([]);
+  const [token, setToken] = useState('');
+
+  useEffect(() => {
+    // Pegue o token do localStorage/sessionStorage
+    const t = localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken');
+    if (t) setToken(t);
+  }, []);
+
+  useEffect(() => {
+    if (token) {
+      getMovimentacoes(token).then(setMovimentacoes);
+    }
+  }, [token]);
 
   const handleNovaMovimentacao = () => {
-    setIsModalOpen(true); // Abrir o modal ao clicar no botão
+    setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false); // Fechar o modal
-  };
-
-  const handleSaveMovimentacao = (data: any) => {
-    // Aqui você pode processar os dados da movimentação
-    console.log('Dados da movimentação:', data);
-    
-    // Fechar o modal após salvar
     setIsModalOpen(false);
-    
-    // Aqui você pode adicionar a lógica para salvar no backend
-    // ou atualizar o estado local das movimentações
   };
 
-  const chartData = [
-    { month: 'Jan', entradas: 20000, saidas: 8000 },
-    { month: 'Fev', entradas: 12000, saidas: 15000 },
-    { month: 'Mar', entradas: 25000, saidas: 7000 },
-    { month: 'Abr', entradas: 18000, saidas: 12000 },
-    { month: 'Mai', entradas: 30000, saidas: 10000 },
-    { month: 'Jun', entradas: 22000, saidas: 18000 }
-  ];
-
-  const movimentacoes: Movimentacao[] = [
-    { date: '24/06/2025', description: 'Frete transporte', type: 'saida', category: 'Veiculos Frete', docs: '46547547', value: '100,00' },
-    { date: '23/06/2025', description: 'Venda em promoção', type: 'entrada', category: 'Vendas', docs: '57547357', value: '100,00' },
-    { date: '22/06/2025', description: 'Combustível', type: 'saida', category: 'Veiculos Frete', docs: '46547548', value: '200,00' },
-    { date: '21/06/2025', description: 'Venda produto', type: 'entrada', category: 'Vendas', docs: '57547358', value: '350,00' }
-  ];
+  const handleSaveMovimentacao = async (data: any) => {
+    if (!token) return;
+    const nova = await createMovimentacao(data, token);
+    setMovimentacoes([nova, ...movimentacoes]);
+    setIsModalOpen(false);
+  };
 
   const filteredMovimentacoes = movimentacoes.filter(mov => {
-    const matchesSearch = mov.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      mov.category.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesType = selectedType === 'Todas' || mov.type === selectedType;
-    const matchesCategory = selectedCategory === 'Todas' || mov.category === selectedCategory;
-
+    const matchesSearch = mov.descricao?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      mov.categorias?.nome?.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = selectedType === 'Todas' || mov.tipo === selectedType;
+    const matchesCategory = selectedCategory === 'Todas' || mov.categorias?.nome === selectedCategory;
     return matchesSearch && matchesType && matchesCategory;
   });
 
   const totalEntradas = movimentacoes
-    .filter(mov => mov.type === 'entrada')
-    .reduce((sum, mov) => sum + parseFloat(mov.value.replace(',', '.')), 0);
+    .filter(mov => mov.tipo === 'entrada')
+    .reduce((sum, mov) => sum + parseFloat(mov.valor), 0);
 
   const totalSaidas = movimentacoes
-    .filter(mov => mov.type === 'saida')
-    .reduce((sum, mov) => sum + parseFloat(mov.value.replace(',', '.')), 0);
+    .filter(mov => mov.tipo === 'saida')
+    .reduce((sum, mov) => sum + parseFloat(mov.valor), 0);
 
   const saldoAtual = totalEntradas - totalSaidas;
 
@@ -82,11 +67,9 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <header className="dashboard-header">
         <div className="header-content">
-
           <div className="logo-container">
             <img src="/public/img/logo.png" alt="Logo" className="logo-img" />
           </div>
-
           <div className="nav-buttons">
             <button 
               className={`btn ${activeSection === 'Dashboard' ? 'btn-active' : ''}`}
@@ -107,8 +90,6 @@ const Dashboard = () => {
           </div>
         </div>
       </header>
-
-      {/* Main Content */}
       <main className="dashboard-content">
         <div className="page-title">
           <h1>{activeSection}</h1>
@@ -117,13 +98,12 @@ const Dashboard = () => {
             {activeSection === 'Perfil' && 'Gerencie suas informações pessoais.'}
           </p>
         </div>
-
         {activeSection === 'Dashboard' && (
           <>
             <div className="chart-wrapper">
               <div className="chart-container">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={chartData}>
+                  <AreaChart data={[]}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="month" />
                     <YAxis />
@@ -133,7 +113,6 @@ const Dashboard = () => {
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
-
               <div className="cards-panel">
                 <div className="card">
                   <div className="label">Saldo Atual</div>
@@ -190,43 +169,47 @@ const Dashboard = () => {
                       value={selectedCategory}
                       onChange={(e) => setSelectedCategory(e.target.value)}>
                       <option value="Todas">Todas</option>
+                      {/* Renderizar categorias dinamicamente se desejar */}
                       <option value="Vendas">Vendas</option>
                       <option value="Veiculos Frete">Veículos Frete</option>
+                      <option value="Contas Fixas">Contas Fixas</option>
+                      <option value="Alimentação">Alimentação</option>
+                      <option value="Transporte">Transporte</option>
+                      <option value="Outros">Outros</option>
                     </select>
                   </div>
                 </div>
               </div>
-
               <div className="table-wrapper">
                 <table>
                   <thead>
                     <tr>
                       <th>Data</th>
                       <th>Descrição</th>
-                      <th>Docs</th>
+                      <th>Categoria</th>
                       <th>Valor</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredMovimentacoes.map((mov, index) => (
                       <tr key={index}>
-                        <td>{mov.date}</td>
+                        <td>{mov.data}</td>
                         <td>
                           <div className="desc">
-                            {mov.type === 'entrada' ? (
+                            {mov.tipo === 'entrada' ? (
                               <ArrowUp className="small green" />
                             ) : (
                               <ArrowDown className="small red" />
                             )}
                             <div>
-                              <div className="text">{mov.description}</div>
-                              <div className="subtext">{mov.category}</div>
+                              <div className="text">{mov.descricao}</div>
+                              <div className="subtext">{mov.categorias?.nome}</div>
                             </div>
                           </div>
                         </td>
-                        <td>{mov.docs}</td>
-                        <td className={mov.type === 'entrada' ? 'green' : 'red'}>
-                          {mov.type === 'entrada' ? '+' : '-'}R$ {mov.value}
+                        <td>{mov.categorias?.nome}</td>
+                        <td className={mov.tipo === 'entrada' ? 'green' : 'red'}>
+                          {mov.tipo === 'entrada' ? '+' : '-'}R$ {parseFloat(mov.valor).toFixed(2).replace('.', ',')}
                         </td>
                       </tr>
                     ))}
@@ -236,14 +219,12 @@ const Dashboard = () => {
             </div>
           </>
         )}
-
       </main>
-
-      {/* Modal - Renderizado condicionalmente */}
       {isModalOpen && (
         <Modal
           onClose={handleCloseModal}
           onSave={handleSaveMovimentacao}
+          token={token}
         />
       )}
     </div>
