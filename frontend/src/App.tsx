@@ -3,7 +3,7 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Cadastro from './pages/Cadastro';
 import ResetPassword from './pages/ResetPassword';
-
+import Profile from './pages/Profile'; 
 const App = () => {
   return (
     <Router>
@@ -13,6 +13,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/profile" element={<Profile />} /> 
       </Routes>
     </Router>
   );
