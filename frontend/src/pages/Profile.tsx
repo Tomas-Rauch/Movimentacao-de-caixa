@@ -11,11 +11,13 @@ import {
   LogOut,
   LayoutDashboard,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Profile.css";
 
 const Profile: React.FC = () => {
   const [activeTab, setActiveTab] = useState("perfil");
   const [profileImage, setProfileImage] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -25,8 +27,28 @@ const Profile: React.FC = () => {
     }
   };
 
+  const handleNavigation = (page: string) => {
+    switch (page) {
+      case "dashboard":
+        navigate("/dashboard");
+        break;
+      case "nova-movimentacao":
+        navigate("/nova-movimentacao");
+        break;
+      case "perfil":
+        navigate("/perfil");
+        break;
+      case "sair":
+        // Lógica para logout
+        navigate("/login");
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
-    <>
+    <div className="settings-page">
       {/* HEADER */}
       <header className="app-header">
         <div className="logo">
@@ -34,16 +56,25 @@ const Profile: React.FC = () => {
         </div>
 
         <nav className="menu">
-          <button className="menu-btn">
+          <button 
+            className="menu-btn" 
+            onClick={() => handleNavigation("dashboard")}
+          >
             <LayoutDashboard size={20} /> Dashboard
           </button>
-          <button className="menu-btn">
+          <button 
+            className="menu-btn" 
+            onClick={() => handleNavigation("nova-movimentacao")}
+          >
             <Plus size={20} /> Nova movimentação
           </button>
           <button className="menu-btn current">
             <User size={20} /> Perfil
           </button>
-          <button className="menu-btn">
+          <button 
+            className="menu-btn" 
+            onClick={() => handleNavigation("sair")}
+          >
             <LogOut size={20} /> Sair
           </button>
         </nav>
@@ -51,40 +82,41 @@ const Profile: React.FC = () => {
 
       {/* CONTEÚDO */}
       <div className="settings-container">
-        <div className="settings-header">
-          <h1 className="settings-title">Meu Perfil</h1>
+        <div className="card">
+          {/* HEADER DA SEÇÃO DENTRO DO BOX */}
+          <div className="settings-header">
+            <h1 className="settings-title">Meu Perfil</h1>
 
-          <div className="settings-tabs">
-            <button
-              className={activeTab === "perfil" ? "active" : ""}
-              onClick={() => setActiveTab("perfil")}
-            >
-              <User size={20} /> Perfil
-            </button>
-            <button
-              className={activeTab === "senha" ? "active" : ""}
-              onClick={() => setActiveTab("senha")}
-            >
-              <Lock size={20} /> Segurança
-            </button>
-            <button
-              className={activeTab === "novo" ? "active" : ""}
-              onClick={() => setActiveTab("novo")}
-            >
-              <UserPlus size={20} /> Novo Usuário
-            </button>
+            <div className="settings-tabs">
+              <button
+                className={activeTab === "perfil" ? "active" : ""}
+                onClick={() => setActiveTab("perfil")}
+              >
+                <User size={20} /> Perfil
+              </button>
+              <button
+                className={activeTab === "senha" ? "active" : ""}
+                onClick={() => setActiveTab("senha")}
+              >
+                <Lock size={20} /> Segurança
+              </button>
+              <button
+                className={activeTab === "novo" ? "active" : ""}
+                onClick={() => setActiveTab("novo")}
+              >
+                <UserPlus size={20} /> Novo Usuário
+              </button>
+            </div>
           </div>
-        </div>
 
-        <p className="settings-subtitle">
-          Gerencie suas informações e preferências da conta
-        </p>
+          <p className="settings-subtitle">
+            Gerencie suas informações e preferências da conta
+          </p>
 
-        <div className="settings-layout">
           {/* CONTEÚDO PRINCIPAL */}
           <section className="settings-content">
             {activeTab === "perfil" && (
-              <div className="card">
+              <>
                 <h2>Informações do Perfil</h2>
 
                 <div className="profile-section">
@@ -134,11 +166,11 @@ const Profile: React.FC = () => {
                 <button className="save-btn">
                   <Save size={20} /> Salvar Alterações
                 </button>
-              </div>
+              </>
             )}
 
             {activeTab === "senha" && (
-              <div className="card">
+              <>
                 <h2>Alterar Senha</h2>
 
                 <div className="form-group">
@@ -168,11 +200,11 @@ const Profile: React.FC = () => {
                 <button className="save-btn">
                   <Save size={20} /> Alterar Senha
                 </button>
-              </div>
+              </>
             )}
 
             {activeTab === "novo" && (
-              <div className="card">
+              <>
                 <h2>Criar Novo Usuário</h2>
 
                 <div className="form-group">
@@ -210,12 +242,12 @@ const Profile: React.FC = () => {
                 <button className="save-btn">
                   <UserPlus size={20} /> Criar Usuário
                 </button>
-              </div>
+              </>
             )}
           </section>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

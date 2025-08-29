@@ -1,24 +1,26 @@
 /* Header */
-.app-header {
+.settings-page .app-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: #2563eb;
   padding: 16px 40px;
   color: white;
+  flex-wrap: wrap;
 }
 
-.logo-img {
+.settings-page .logo-img {
   height: 50px;
 }
 
-.menu {
+.settings-page .menu {
   display: flex;
   align-items: center;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
-.menu-btn {
+.settings-page .menu-btn {
   background: transparent;
   border: none;
   color: white;
@@ -33,42 +35,47 @@
   transition: 0.2s;
 }
 
-.menu-btn:hover {
+.settings-page .menu-btn:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 
-.menu-btn.current {
+.settings-page .menu-btn.current {
   background: white;
   color: #2563eb;
   font-weight: bold;
 }
 
 /* Container */
-.settings-container {
+.settings-page .settings-container {
   padding: 40px;
   font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
 }
 
 /* Header da seção */
-.settings-header {
+.settings-page .settings-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
-.settings-title {
+.settings-page .settings-title {
   font-size: 28px;
   font-weight: bold;
   margin: 0;
 }
 
-.settings-tabs {
+.settings-page .settings-tabs {
   display: flex;
   gap: 15px;
+  flex-wrap: wrap;
 }
 
-.settings-tabs button {
+.settings-page .settings-tabs button {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -81,62 +88,65 @@
   transition: 0.2s;
 }
 
-.settings-tabs button:hover {
+.settings-page .settings-tabs button:hover {
   background: #e5e5e5;
 }
 
-.settings-tabs button.active {
+.settings-page .settings-tabs button.active {
   background: #2563eb;
   color: white;
   border-color: #2563eb;
   font-weight: bold;
 }
 
-.settings-subtitle {
+.settings-page .settings-subtitle {
   color: #444;
   margin-bottom: 25px;
   font-size: 16px;
 }
 
 /* Layout */
-.settings-layout {
+.settings-page .settings-layout {
   display: flex;
   justify-content: center;
 }
 
-.settings-content {
+.settings-page .settings-content {
   width: 100%;
 }
 
 /* Card */
-.card {
+.settings-page .card {
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 14px;
   padding: 30px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  width: 100%;
-  max-width: 900px;
+  width: 90%;
+  max-width: 1200px;
+  min-height: calc(100vh - 80px);
+  box-sizing: border-box;
+  margin: 20px 0;
 }
 
-.card h2 {
+.settings-page .card h2 {
   font-size: 22px;
   margin-bottom: 25px;
   color: #333;
 }
 
 /* Upload de imagem */
-.image-upload {
+.settings-page .image-upload {
   display: flex;
   justify-content: center;
   margin-bottom: 25px;
 }
 
-.image-upload input {
+.settings-page .image-upload input {
   display: none;
 }
 
-.image-upload img {
+.settings-page .image-upload img {
   width: 150px;
   height: 150px;
   border-radius: 50%;
@@ -144,7 +154,7 @@
   border: 4px solid #2563eb;
 }
 
-.image-upload .placeholder {
+.settings-page .image-upload .placeholder {
   width: 150px;
   height: 150px;
   border-radius: 50%;
@@ -159,19 +169,19 @@
 }
 
 /* Form grid */
-.form-grid {
+.settings-page .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 25px;
   width: 100%;
 }
 
-.form-group.full {
+.settings-page .form-group.full {
   grid-column: span 2;
 }
 
 /* Inputs */
-.form-group label {
+.settings-page .form-group label {
   font-size: 15px;
   margin-bottom: 6px;
   display: block;
@@ -179,13 +189,13 @@
   font-weight: 500;
 }
 
-.input-icon {
+.settings-page .input-icon {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.input-icon input {
+.settings-page .input-icon input {
   flex: 1;
   padding: 14px;
   border-radius: 8px;
@@ -194,18 +204,18 @@
   font-size: 15px;
 }
 
-.input-icon input:focus {
+.settings-page .input-icon input:focus {
   border-color: #2563eb;
   box-shadow: 0 0 0 2px rgba(37,99,235,0.2);
 }
 
-.card input:disabled {
+.settings-page .card input:disabled {
   background: #f5f5f5;
   color: #666;
 }
 
 /* Select */
-.form-group select {
+.settings-page .form-group select {
   width: 100%;
   padding: 14px;
   border-radius: 8px;
@@ -215,13 +225,13 @@
   background: #fff;
 }
 
-.form-group select:focus {
+.settings-page .form-group select:focus {
   border-color: #2563eb;
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
 }
 
 /* Botão */
-.save-btn {
+.settings-page .save-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -239,13 +249,73 @@
   width: 100%;
 }
 
-.save-btn:hover {
+.settings-page .save-btn:hover {
   background: #1e4ecf;
 }
 
 /* Responsividade */
+@media (max-width: 1024px) {
+  .settings-page .settings-container {
+    padding: 20px;
+  }
+
+  .settings-page .settings-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .settings-page .card {
+    width: 95%;
+    padding: 20px;
+  }
+}
+
 @media (max-width: 768px) {
-  .form-grid {
+  .settings-page .form-grid {
     grid-template-columns: 1fr;
+  }
+
+  .settings-page .settings-tabs {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .settings-page .settings-tabs button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .settings-page .card {
+    width: 98%;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-page .app-header {
+    padding: 12px 20px;
+  }
+
+  .settings-page .logo-img {
+    height: 40px;
+  }
+
+  .settings-page .menu {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .settings-page .menu-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .settings-page .settings-title {
+    font-size: 22px;
+  }
+
+  .settings-page .card {
+    padding: 15px;
+    width: 100%;
   }
 }
