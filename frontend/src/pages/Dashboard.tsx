@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import { Search, Plus, User, ArrowUp, ArrowDown, LayoutDashboard, LogOut } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';   // 👈 Import para navegação
 import Modal from './Modal';
 import '../styles/Dashboard.css';
 import { getMovimentacoes, createMovimentacao } from '../services/movimentacaoApi';
@@ -14,8 +15,9 @@ const Dashboard = () => {
   const [movimentacoes, setMovimentacoes] = useState<any[]>([]);
   const [token, setToken] = useState('');
 
+  const navigate = useNavigate(); // 👈 Hook de navegação
+
   useEffect(() => {
-    // Pegue o token do localStorage/sessionStorage
     const t = localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken');
     if (t) setToken(t);
   }, []);
@@ -83,7 +85,7 @@ const Dashboard = () => {
             >
               <Plus className="icon" /> Nova movimentação
             </button>
-            <button className="btn">
+            <button className="btn" onClick={() => navigate('/profile')}>
               <User className="icon" /> Perfil
             </button>
             <button className="btn-icon" aria-label="Sair" title="Sair"><LogOut className="icon" /></button>

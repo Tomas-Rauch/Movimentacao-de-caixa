@@ -39,7 +39,6 @@ const Profile: React.FC = () => {
         navigate("/perfil");
         break;
       case "sair":
-        // Lógica para logout
         navigate("/login");
         break;
       default:
@@ -49,41 +48,46 @@ const Profile: React.FC = () => {
 
   return (
     <div className="settings-page">
-      {/* HEADER */}
-      <header className="app-header">
-        <div className="logo">
-          <img src="/img/logo.png" alt="Logo" className="logo-img" />
+      {/* HEADER - igual ao Dashboard */}
+      <header className="dashboard-header">
+        <div className="header-content">
+          <div className="logo-container">
+            <img src="/public/img/logo.png" alt="Logo" className="logo-img" />
+          </div>
+          <div className="nav-buttons">
+            <button
+              className="btn"
+              onClick={() => handleNavigation("dashboard")}
+            >
+              <LayoutDashboard className="icon" /> Dashboard
+            </button>
+            <button
+              className="btn"
+              onClick={() => handleNavigation("nova-movimentacao")}
+            >
+              <Plus className="icon" /> Nova movimentação
+            </button>
+            <button
+              className="btn btn-active" // ativo no Perfil
+              onClick={() => handleNavigation("perfil")}
+            >
+              <User className="icon" /> Perfil
+            </button>
+            <button
+              className="btn-icon"
+              aria-label="Sair"
+              title="Sair"
+              onClick={() => handleNavigation("sair")}
+            >
+              <LogOut className="icon" />
+            </button>
+          </div>
         </div>
-
-        <nav className="menu">
-          <button 
-            className="menu-btn" 
-            onClick={() => handleNavigation("dashboard")}
-          >
-            <LayoutDashboard size={20} /> Dashboard
-          </button>
-          <button 
-            className="menu-btn" 
-            onClick={() => handleNavigation("nova-movimentacao")}
-          >
-            <Plus size={20} /> Nova movimentação
-          </button>
-          <button className="menu-btn current">
-            <User size={20} /> Perfil
-          </button>
-          <button 
-            className="menu-btn" 
-            onClick={() => handleNavigation("sair")}
-          >
-            <LogOut size={20} /> Sair
-          </button>
-        </nav>
       </header>
 
       {/* CONTEÚDO */}
       <div className="settings-container">
         <div className="card">
-          {/* HEADER DA SEÇÃO DENTRO DO BOX */}
           <div className="settings-header">
             <h1 className="settings-title">Meu Perfil</h1>
 
@@ -113,7 +117,6 @@ const Profile: React.FC = () => {
             Gerencie suas informações e preferências da conta
           </p>
 
-          {/* CONTEÚDO PRINCIPAL */}
           <section className="settings-content">
             {activeTab === "perfil" && (
               <>
@@ -177,7 +180,10 @@ const Profile: React.FC = () => {
                   <label>Senha Atual</label>
                   <div className="input-icon">
                     <KeyRound size={20} />
-                    <input type="password" placeholder="Digite sua senha atual" />
+                    <input
+                      type="password"
+                      placeholder="Digite sua senha atual"
+                    />
                   </div>
                 </div>
 
@@ -185,7 +191,10 @@ const Profile: React.FC = () => {
                   <label>Nova Senha</label>
                   <div className="input-icon">
                     <KeyRound size={20} />
-                    <input type="password" placeholder="Digite sua nova senha" />
+                    <input
+                      type="password"
+                      placeholder="Digite sua nova senha"
+                    />
                   </div>
                 </div>
 
@@ -193,7 +202,10 @@ const Profile: React.FC = () => {
                   <label>Confirmar Nova Senha</label>
                   <div className="input-icon">
                     <KeyRound size={20} />
-                    <input type="password" placeholder="Confirme sua nova senha" />
+                    <input
+                      type="password"
+                      placeholder="Confirme sua nova senha"
+                    />
                   </div>
                 </div>
 
