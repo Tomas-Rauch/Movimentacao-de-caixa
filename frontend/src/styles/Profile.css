@@ -319,3 +319,54 @@
     width: 100%;
   }
 }
+
+/* User List Table */
+.user-list-container {
+  overflow-x: auto; /* Para rolagem em telas pequenas */
+}
+
+.user-list-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 15px;
+}
+
+.user-list-table th,
+.user-list-table td {
+  border: 1px solid #ddd;
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.user-list-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #333;
+}
+
+.user-list-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.user-list-table tbody tr:hover {
+  background-color: #e9ecef;
+}
+
+/* Botão de deletar na lista de usuários */
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: #ef4444; /* Vermelho */
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.delete-btn:hover {
+  background-color: #fee2e2; /* Fundo vermelho claro no hover */
+}

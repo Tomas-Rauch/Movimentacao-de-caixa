@@ -94,20 +94,46 @@ export const updateUser = async (req: Request, res: Response): Promise<void> => 
 // Deletar usuário (apenas admins)
 export const deleteUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { id } = req.params
+    const idToDelete = req.params.id;
+    const adminId = req.user?.id;
 
-    const { error } = await supabase.from('usuarios').delete().eq('id', id)
-
-    if (error) {
-      res.status(500).json({ message: error.message })
-      return
+    // Regra 1: Admin não pode se auto-deletar
+    if (idToDelete === String(adminId)) {
+      res.status(403).json({ message: 'Você não pode excluir sua própria conta.' });
+      return;
     }
 
-    res.status(200).json({ message: 'Usuário deletado' })
+    // Buscar o usuário que será deletado para verificar o nome
+    const { data: userToDelete, error: fetchError } = await supabase
+      .from('usuarios')
+      .select('nome')
+      .eq('id', idToDelete)
+      .single();
+
+    if (fetchError || !userToDelete) {
+      res.status(404).json({ message: 'Usuário a ser excluído não encontrado.' });
+      return;
+    }
+
+    // Regra 2: Não pode excluir o usuário "cândido"
+    if (userToDelete.nome.toLowerCase() === 'cândido') {
+        res.status(403).json({ message: 'Este usuário não pode ser excluído.' });
+        return;
+    }
+
+    // Se todas as regras passarem, deleta o usuário
+    const { error: deleteError } = await supabase.from('usuarios').delete().eq('id', idToDelete);
+
+    if (deleteError) {
+      res.status(500).json({ message: deleteError.message });
+      return;
+    }
+
+    res.status(200).json({ message: 'Usuário deletado com sucesso' });
   } catch (error) {
-    res.status(500).json({ message: 'Erro ao deletar usuário' })
+    res.status(500).json({ message: 'Erro ao deletar usuário' });
   }
-}
+};
 
 // Buscar perfil do usuário logado
 export const getUserProfile = async (req: Request, res: Response): Promise<void> => {
