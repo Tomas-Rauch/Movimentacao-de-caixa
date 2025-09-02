@@ -3,8 +3,9 @@ declare global {
     interface UserPayload {
       id: number;
       email?: string;
-      role?: string;
+      role?: 'admin' | 'user';
     }
+
     interface Request {
       user?: UserPayload;
     }

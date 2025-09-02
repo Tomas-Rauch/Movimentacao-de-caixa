@@ -36,8 +36,8 @@ const Login: React.FC = () => {
         localStorage.setItem('accessToken', accessToken)
         localStorage.setItem('refreshToken', refreshToken)
       } else {
-        sessionStorage.setItem('accessToken', accessToken)
-        sessionStorage.setItem('refreshToken', refreshToken)
+        localStorage.setItem('accessToken', accessToken)
+        localStorage.setItem('refreshToken', refreshToken)
       }
 
       alert('Login bem-sucedido!')

@@ -1,21 +1,19 @@
-import { Request, Response, NextFunction } from 'express'
-
-declare global {
-  namespace Express {
-    interface Request {
-      user?: { id: number, role?: string }
-    }
-  }
-}
+import { Request, Response, NextFunction } from 'express';
 
 export function authorize(role: 'admin' | 'user') {
-  return (req: Request, res: Response, next: NextFunction) => {
-    const usuario = req.user as { role?: string }
+  return (req: Request, res: Response, next: NextFunction): void => {
+    const usuario = req.user;
 
-    if (usuario?.role !== role) {
-      return res.status(403).json({ message: 'Acesso negado: permissão insuficiente' })
+    if (!usuario?.role) {
+      res.status(401).json({ message: 'Token inválido ou ausente' });
+      return;
     }
 
-    next()
-  }
+    if (usuario.role !== role) {
+      res.status(403).json({ message: 'Acesso negado: permissão insuficiente' });
+      return;
+    }
+
+    next();
+  };
 }

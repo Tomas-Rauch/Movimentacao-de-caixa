@@ -14,6 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import "../styles/Profile.css";
 
+
 const Profile: React.FC = () => {
   const [activeTab, setActiveTab] = useState("perfil");
   const [profileImage, setProfileImage] = useState<string | null>(null);
@@ -43,6 +44,27 @@ const Profile: React.FC = () => {
         break;
       default:
         break;
+    }
+  };
+
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+
+  const handleSaveProfile = async () => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) return alert('Usuário não autenticado');
+    const res = await fetch('http://localhost:3000/users/profile', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ nome, email }),
+    });
+    if (res.ok) {
+      alert('Perfil atualizado com sucesso!');
+    } else {
+      alert('Erro ao atualizar perfil');
     }
   };
 
@@ -147,7 +169,7 @@ const Profile: React.FC = () => {
                       <label>Nome de Usuário</label>
                       <div className="input-icon">
                         <User size={20} />
-                        <input type="text" placeholder="Digite seu nome" />
+                        <input type="text" placeholder="Digite seu nome" value={nome} onChange={e => setNome(e.target.value)} />
                       </div>
                     </div>
 
@@ -155,7 +177,7 @@ const Profile: React.FC = () => {
                       <label>Email</label>
                       <div className="input-icon">
                         <Mail size={20} />
-                        <input type="email" placeholder="exemplo@gmail.com" />
+                        <input type="email" placeholder="exemplo@gmail.com" value={email} onChange={e => setEmail(e.target.value)} />
                       </div>
                     </div>
 
@@ -166,7 +188,7 @@ const Profile: React.FC = () => {
                   </div>
                 </div>
 
-                <button className="save-btn">
+                <button className="save-btn" onClick={handleSaveProfile}>
                   <Save size={20} /> Salvar Alterações
                 </button>
               </>
