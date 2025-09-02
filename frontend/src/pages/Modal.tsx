@@ -24,12 +24,20 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ onClose, onSave, token }) => {
+  const getTodayDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   const [movementType, setMovementType] = useState<'entrada' | 'saida'>('entrada');
   const [formData, setFormData] = useState({
     valor: '',
     descricao: '',
     categoria: '',
-    data: ''
+    data: getTodayDate(),
   });
   const [categorias, setCategorias] = useState<Categoria[]>([]);
 
@@ -37,17 +45,26 @@ const Modal: React.FC<ModalProps> = ({ onClose, onSave, token }) => {
     getCategorias(token).then(setCategorias);
   }, [token]);
 
+  const resetForm = () => {
+    setFormData({
+      valor: '',
+      descricao: '',
+      categoria: '',
+      data: getTodayDate(),
+    });
+  };
+
   const handleSave = () => {
     if (!formData.valor || !formData.descricao || !formData.categoria || !formData.data) {
       alert('Por favor, preencha todos os campos obrigatórios.');
       return;
     }
     onSave({ ...formData, tipo: movementType });
-    setFormData({ valor: '', descricao: '', categoria: '', data: '' });
+    resetForm();
   };
 
   const handleClose = () => {
-    setFormData({ valor: '', descricao: '', categoria: '', data: '' });
+    resetForm();
     onClose();
   };
 

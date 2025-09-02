@@ -1,11 +1,10 @@
 import { supabase } from '../database/supabaseClient';
 
 export class MovimentacaoService {
-  static async listarMovimentacoes(id_usuario: number) {
+  static async listarMovimentacoes() {
     const { data, error } = await supabase
       .from('movimentacoes')
       .select('*, categorias(nome)')
-      .eq('id_usuario', id_usuario)
       .order('data', { ascending: false });
 
     if (error) throw new Error(error.message);

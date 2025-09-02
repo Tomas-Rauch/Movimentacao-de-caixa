@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';   // 👈 Import para navegaçã
 import Modal from './Modal';
 import '../styles/Dashboard.css';
 import { getMovimentacoes, createMovimentacao } from '../services/movimentacaoApi';
+import { useLocation } from 'react-router-dom';
 
 const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -14,6 +15,8 @@ const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [movimentacoes, setMovimentacoes] = useState<any[]>([]);
   const [token, setToken] = useState('');
+
+  const location = useLocation();
 
   const navigate = useNavigate(); // 👈 Hook de navegação
 
@@ -28,6 +31,13 @@ const Dashboard = () => {
     }
   }, [token]);
 
+  useEffect(() => {
+  const params = new URLSearchParams(location.search);
+  if (params.get('modal') === 'movimentacao') {
+    setIsModalOpen(true);
+  }
+}, [location.search]);
+
   const handleNovaMovimentacao = () => {
     setIsModalOpen(true);
   };
@@ -41,6 +51,12 @@ const Dashboard = () => {
     const nova = await createMovimentacao(data, token);
     setMovimentacoes([nova, ...movimentacoes]);
     setIsModalOpen(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    sessionStorage.clear();
+    navigate("/login");
   };
 
   const filteredMovimentacoes = movimentacoes.filter(mov => {
@@ -88,7 +104,7 @@ const Dashboard = () => {
             <button className="btn" onClick={() => navigate('/profile')}>
               <User className="icon" /> Perfil
             </button>
-            <button className="btn-icon" aria-label="Sair" title="Sair"><LogOut className="icon" /></button>
+            <button className="btn-icon" aria-label="Sair" title="Sair" onClick={handleLogout}><LogOut className="icon" /></button>
           </div>
         </div>
       </header>

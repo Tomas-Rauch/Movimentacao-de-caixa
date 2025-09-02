@@ -136,10 +136,10 @@ const Profile: React.FC = () => {
         navigate("/dashboard");
         break;
       case "nova-movimentacao":
-        navigate("/nova-movimentacao");
+        navigate("/dashboard?modal=movimentacao");
         break;
       case "perfil":
-        navigate("/perfil");
+        navigate("/profile");
         break;
       case "sair":
         localStorage.clear();

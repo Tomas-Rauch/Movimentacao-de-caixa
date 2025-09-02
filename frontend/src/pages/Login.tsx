@@ -154,9 +154,7 @@ const Login: React.FC = () => {
 
           {erro && <p style={{ color: 'red', marginTop: '10px' }}>{erro}</p>}
 
-          <div className="signup-link">
-            Não tem uma conta? <a href="/cadastro">Cadastre-se</a>
-          </div>
+          
         </form>
       </div>
 

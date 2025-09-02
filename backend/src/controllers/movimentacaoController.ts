@@ -21,8 +21,7 @@ export const movimentacaoController = {
         return res.status(401).json({ message: 'Usuário não autenticado' });
       }
 
-      const id_usuario = req.user.id;
-      const movimentacoes = await MovimentacaoService.listarMovimentacoes(id_usuario);
+      const movimentacoes = await MovimentacaoService.listarMovimentacoes();
       res.json(movimentacoes);
     } catch (error) {
       res.status(400).json({ message: (error as Error).message });
