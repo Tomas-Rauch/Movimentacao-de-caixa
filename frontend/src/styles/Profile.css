@@ -1,0 +1,372 @@
+/* Header */
+.settings-page .app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #2563eb;
+  padding: 16px 40px;
+  color: white;
+  flex-wrap: wrap;
+}
+
+.settings-page .logo-img {
+  height: 50px;
+}
+
+.settings-page .menu {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.settings-page .menu-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 10px 16px;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.settings-page .menu-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.settings-page .menu-btn.current {
+  background: white;
+  color: #2563eb;
+  font-weight: bold;
+}
+
+/* Container */
+.settings-page .settings-container {
+  padding: 40px;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+}
+
+/* Header da seção */
+.settings-page .settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.settings-page .settings-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.settings-page .settings-tabs {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.settings-page .settings-tabs button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.settings-page .settings-tabs button:hover {
+  background: #e5e5e5;
+}
+
+.settings-page .settings-tabs button.active {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+  font-weight: bold;
+}
+
+.settings-page .settings-subtitle {
+  color: #444;
+  margin-bottom: 25px;
+  font-size: 16px;
+}
+
+/* Layout */
+.settings-page .settings-layout {
+  display: flex;
+  justify-content: center;
+}
+
+.settings-page .settings-content {
+  width: 100%;
+}
+
+/* Card */
+.settings-page .card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  width: 90%;
+  max-width: 1200px;
+  min-height: calc(100vh - 80px);
+  box-sizing: border-box;
+  margin: 20px 0;
+}
+
+.settings-page .card h2 {
+  font-size: 22px;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+/* Upload de imagem */
+.settings-page .image-upload {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.settings-page .image-upload input {
+  display: none;
+}
+
+.settings-page .image-upload img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #2563eb;
+}
+
+.settings-page .image-upload .placeholder {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: #f3f3f3;
+  border: 2px dashed #bbb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  font-size: 15px;
+}
+
+/* Form grid */
+.settings-page .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  width: 100%;
+}
+
+.settings-page .form-group.full {
+  grid-column: span 2;
+}
+
+/* Inputs */
+.settings-page .form-group label {
+  font-size: 15px;
+  margin-bottom: 6px;
+  display: block;
+  color: #333;
+  font-weight: 500;
+}
+
+.settings-page .input-icon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-page .input-icon input {
+  flex: 1;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 15px;
+}
+
+.settings-page .input-icon input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.2);
+}
+
+.settings-page .card input:disabled {
+  background: #f5f5f5;
+  color: #666;
+}
+
+/* Select */
+.settings-page .form-group select {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  outline: none;
+  background: #fff;
+}
+
+.settings-page .form-group select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+/* Botão */
+.settings-page .save-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: 0.3s;
+  width: 100%;
+}
+
+.settings-page .save-btn:hover {
+  background: #1e4ecf;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .settings-page .settings-container {
+    padding: 20px;
+  }
+
+  .settings-page .settings-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .settings-page .card {
+    width: 95%;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .settings-page .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-page .settings-tabs {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .settings-page .settings-tabs button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .settings-page .card {
+    width: 98%;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-page .app-header {
+    padding: 12px 20px;
+  }
+
+  .settings-page .logo-img {
+    height: 40px;
+  }
+
+  .settings-page .menu {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .settings-page .menu-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .settings-page .settings-title {
+    font-size: 22px;
+  }
+
+  .settings-page .card {
+    padding: 15px;
+    width: 100%;
+  }
+}
+
+/* User List Table */
+.user-list-container {
+  overflow-x: auto; /* Para rolagem em telas pequenas */
+}
+
+.user-list-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 15px;
+}
+
+.user-list-table th,
+.user-list-table td {
+  border: 1px solid #ddd;
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.user-list-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #333;
+}
+
+.user-list-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.user-list-table tbody tr:hover {
+  background-color: #e9ecef;
+}
+
+/* Botão de deletar na lista de usuários */
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: #ef4444; /* Vermelho */
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.delete-btn:hover {
+  background-color: #fee2e2; /* Fundo vermelho claro no hover */
+}
