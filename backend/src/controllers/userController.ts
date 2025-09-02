@@ -1,19 +1,25 @@
 import { supabase } from '../database/supabaseClient'
 import { Request, Response } from 'express'
+import bcrypt from 'bcrypt';
 
 // Criar usuário (apenas admins)
 export const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const { nome, email, senha, perfil } = req.body
 
+    console.log('Dados recebidos:', req.body);
+
     if (!nome || !email || !senha || !perfil) {
       res.status(400).json({ message: 'Preencha todos os campos' })
       return
     }
 
+    // Gerar hash da senha
+    const senhaHash = await bcrypt.hash(senha, 10);
+
     const { data, error } = await supabase
       .from('usuarios')
-      .insert([{ nome, email, senha, perfil }])
+      .insert([{ nome, email, senha: senhaHash, perfil }])
 
     if (error) {
       res.status(500).json({ message: error.message })
@@ -135,7 +141,7 @@ export const updateUserProfile = async (req: Request, res: Response): Promise<vo
     if (!req.user) {
       res.status(401).json({ message: 'Não autorizado' })
       return
-    }
+    } 
 
     const { id } = req.user
     const { nome, email } = req.body

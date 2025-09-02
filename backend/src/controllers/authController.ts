@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { AuthService } from '../services/authService'
 import jwt from 'jsonwebtoken'
+import { supabase } from '../database/supabaseClient'
 
 export const authController = {
   async registrar(req: Request, res: Response) {
@@ -36,8 +37,18 @@ export const authController = {
         process.env.JWT_REFRESH_SECRET || 'refresh_default'
       ) as any
 
+      const { data: usuario, error } = await supabase
+        .from('usuarios')
+        .select('id, email, perfil')
+        .eq('id', decoded.id)
+        .single()
+
+      if (error || !usuario) {
+        return res.status(403).json({ message: 'Erro ao encontrar usuário para refresh' })
+      }
+
       const accessToken = jwt.sign(
-        { id: decoded.id },
+        { id: usuario.id, email: usuario.email, role: usuario.perfil },
         process.env.JWT_ACCESS_SECRET || 'access_default',
         { expiresIn: '15m' }
       )

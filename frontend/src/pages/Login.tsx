@@ -30,14 +30,16 @@ const Login: React.FC = () => {
         throw new Error(erroResposta.message || 'Erro ao fazer login')
       }
 
-      const { accessToken, refreshToken } = await response.json()
+      const { accessToken, refreshToken, perfil } = await response.json()
 
       if (rememberMe) {
         localStorage.setItem('accessToken', accessToken)
         localStorage.setItem('refreshToken', refreshToken)
+        localStorage.setItem('perfil', perfil)
       } else {
-        localStorage.setItem('accessToken', accessToken)
-        localStorage.setItem('refreshToken', refreshToken)
+        sessionStorage.setItem('accessToken', accessToken)
+        sessionStorage.setItem('refreshToken', refreshToken)
+        sessionStorage.setItem('perfil', perfil)
       }
 
       alert('Login bem-sucedido!')

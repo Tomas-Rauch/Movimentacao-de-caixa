@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   User,
   Lock,
@@ -14,11 +14,48 @@ import {
 import { useNavigate } from "react-router-dom";
 import "../styles/Profile.css";
 
-
 const Profile: React.FC = () => {
   const [activeTab, setActiveTab] = useState("perfil");
+
+  const userRole = localStorage.getItem('perfil') || sessionStorage.getItem('perfil');
+
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [perfil, setPerfil] = useState('');
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const token = localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken');
+      if (!token) {
+        alert('Usuário não autenticado');
+        navigate('/login');
+        return;
+      }
+      try {
+        const res = await fetch('http://localhost:3000/users/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setNome(data.nome);
+          setEmail(data.email);
+          setPerfil(data.perfil);
+        } else {
+          throw new Error('Falha ao buscar dados do perfil');
+        }
+      } catch (error) {
+        console.error(error);
+        alert('Erro ao carregar o perfil.');
+      }
+    };
+
+    fetchProfile();
+  }, [navigate]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -40,6 +77,8 @@ const Profile: React.FC = () => {
         navigate("/perfil");
         break;
       case "sair":
+        localStorage.clear();
+        sessionStorage.clear();
         navigate("/login");
         break;
       default:
@@ -47,11 +86,8 @@ const Profile: React.FC = () => {
     }
   };
 
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
-
   const handleSaveProfile = async () => {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken');
     if (!token) return alert('Usuário não autenticado');
     const res = await fetch('http://localhost:3000/users/profile', {
       method: 'PUT',
@@ -65,6 +101,38 @@ const Profile: React.FC = () => {
       alert('Perfil atualizado com sucesso!');
     } else {
       alert('Erro ao atualizar perfil');
+    }
+  };
+
+  const [novoNome, setNovoNome] = useState('');
+  const [novoEmail, setNovoEmail] = useState('');
+  const [novoSenha, setNovoSenha] = useState('');
+  const [novoPerfil, setNovoPerfil] = useState('admin');
+
+  const handleCreateUser = async () => {
+    const token = localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken');
+    if (!token) return alert('Usuário não autenticado');
+    const res = await fetch('http://localhost:3000/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        nome: novoNome,
+        email: novoEmail,
+        senha: novoSenha,
+        perfil: novoPerfil,
+      }),
+    });
+    if (res.ok) {
+      alert('Usuário criado com sucesso!');
+      setNovoNome('');
+      setNovoEmail('');
+      setNovoSenha('');
+      setNovoPerfil('admin');
+    } else {
+      alert('Erro ao criar usuário');
     }
   };
 
@@ -126,12 +194,14 @@ const Profile: React.FC = () => {
               >
                 <Lock size={20} /> Segurança
               </button>
-              <button
-                className={activeTab === "novo" ? "active" : ""}
-                onClick={() => setActiveTab("novo")}
-              >
-                <UserPlus size={20} /> Novo Usuário
-              </button>
+              {userRole === 'admin' && (
+                <button
+                  className={activeTab === "novo" ? "active" : ""}
+                  onClick={() => setActiveTab("novo")}
+                >
+                  <UserPlus size={20} /> Novo Usuário
+                </button>
+              )}
             </div>
           </div>
 
@@ -183,7 +253,7 @@ const Profile: React.FC = () => {
 
                     <div className="form-group full">
                       <label>Nível</label>
-                      <input type="text" value="ADMIN" disabled />
+                      <input type="text" value={perfil === 'admin' ? 'ADMIN' : 'FUNCIONÁRIO'} disabled />
                     </div>
                   </div>
                 </div>
@@ -245,7 +315,7 @@ const Profile: React.FC = () => {
                   <label>Nome do Usuário</label>
                   <div className="input-icon">
                     <User size={20} />
-                    <input type="text" placeholder="Digite o nome do usuário" />
+                    <input type="text" placeholder="Digite o nome do usuário" value={novoNome} onChange={e => setNovoNome(e.target.value)} />
                   </div>
                 </div>
 
@@ -253,7 +323,7 @@ const Profile: React.FC = () => {
                   <label>Email</label>
                   <div className="input-icon">
                     <Mail size={20} />
-                    <input type="email" placeholder="Digite o email do usuário" />
+                    <input type="email" placeholder="Digite o email do usuário" value={novoEmail} onChange={e => setNovoEmail(e.target.value)} />
                   </div>
                 </div>
 
@@ -261,19 +331,19 @@ const Profile: React.FC = () => {
                   <label>Senha</label>
                   <div className="input-icon">
                     <KeyRound size={20} />
-                    <input type="password" placeholder="Defina uma senha" />
+                    <input type="password" placeholder="Defina uma senha" value={novoSenha} onChange={e => setNovoSenha(e.target.value)} />
                   </div>
                 </div>
 
                 <div className="form-group">
                   <label>Nível</label>
-                  <select>
-                    <option value="ADMIN">ADMIN</option>
-                    <option value="FUNCIONARIO">FUNCIONÁRIO</option>
+                  <select value={novoPerfil} onChange={e => setNovoPerfil(e.target.value)}>
+                    <option value="admin">ADMIN</option>
+                    <option value="user">FUNCIONÁRIO</option>
                   </select>
                 </div>
 
-                <button className="save-btn">
+                <button className="save-btn" onClick={handleCreateUser}>
                   <UserPlus size={20} /> Criar Usuário
                 </button>
               </>

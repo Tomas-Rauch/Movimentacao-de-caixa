@@ -77,7 +77,7 @@ export class AuthService {
       { expiresIn: '7d' }
     )
 
-    return { accessToken, refreshToken }
+    return { accessToken, refreshToken, perfil: usuario.perfil }
   }
 
   static async forgotPassword(email: string) {
