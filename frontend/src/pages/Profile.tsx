@@ -41,7 +41,7 @@ const Profile: React.FC = () => {
   const fetchUsers = async () => {
     const token = localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken');
     try {
-      const res = await fetch('http://localhost:3000/users', {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -68,7 +68,7 @@ const Profile: React.FC = () => {
         return;
       }
       try {
-        const res = await fetch('http://localhost:3000/users/profile', {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/profile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -102,7 +102,7 @@ const Profile: React.FC = () => {
     if (window.confirm('Tem certeza que deseja excluir este usuário? Esta ação é irreversível.')) {
         const token = localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken');
         try {
-            const res = await fetch(`http://localhost:3000/users/${userId}`, {
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -154,7 +154,7 @@ const Profile: React.FC = () => {
   const handleSaveProfile = async () => {
     const token = localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken');
     if (!token) return alert('Usuário não autenticado');
-    const res = await fetch('http://localhost:3000/users/profile', {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/profile`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -177,7 +177,7 @@ const Profile: React.FC = () => {
   const handleCreateUser = async () => {
     const token = localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken');
     if (!token) return alert('Usuário não autenticado');
-    const res = await fetch('http://localhost:3000/users', {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

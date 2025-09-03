@@ -19,7 +19,7 @@ const Login: React.FC = () => {
     setCarregando(true)
 
     try {
-      const response = await fetch('http://localhost:3000/auth/login', {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -57,7 +57,7 @@ const Login: React.FC = () => {
   const handleRecuperarSenha = async () => {
     setRecuperacaoMsg('')
     try {
-      const res = await fetch('http://localhost:3000/auth/forgot-password', {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: emailRecuperacao }),

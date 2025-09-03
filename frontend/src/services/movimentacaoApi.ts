@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/movimentacoes';
+const API_URL = `${import.meta.env.VITE_BACKEND_URL}/movimentacoes`;
 
 export async function getMovimentacoes(token: string) {
   const res = await fetch(API_URL, {
@@ -33,7 +33,7 @@ export async function deleteMovimentacao(id: number, token: string) {
 }
 
 export async function getCategorias(token: string) {
-  const res = await fetch(`http://localhost:3000/categorias`, {
+  const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/categorias`, {
     headers: { Authorization: `Bearer ${token}` }
   });
   return res.json();
