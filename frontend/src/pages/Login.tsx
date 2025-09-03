@@ -110,7 +110,7 @@ const Login: React.FC = () => {
               id="email"
               placeholder="Digite seu email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
               required
             />
           </div>
@@ -122,7 +122,7 @@ const Login: React.FC = () => {
               id="password"
               placeholder="Digite sua senha"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
               required
             />
           </div>
@@ -132,7 +132,7 @@ const Login: React.FC = () => {
               <input
                 type="checkbox"
                 checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRememberMe(e.target.checked)}
               />
               Lembrar de mim
             </label>
@@ -167,7 +167,7 @@ const Login: React.FC = () => {
               type="email"
               placeholder="Digite seu email"
               value={emailRecuperacao}
-              onChange={(e) => setEmailRecuperacao(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmailRecuperacao(e.target.value)}
             />
             <button onClick={handleRecuperarSenha}>Enviar link</button>
             {recuperacaoMsg && <p>{recuperacaoMsg}</p>}

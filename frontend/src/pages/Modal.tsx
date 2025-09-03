@@ -111,7 +111,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, onSave, token }) => {
               step="0.01"
               placeholder="R$ 0,00"
               value={formData.valor}
-              onChange={(e) => setFormData({ ...formData, valor: e.target.value })}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, valor: e.target.value })}
               required
             />
           </div>
@@ -121,7 +121,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, onSave, token }) => {
               type="text"
               placeholder="Ex: Pagamento da conta, compras do mercado"
               value={formData.descricao}
-              onChange={(e) => setFormData({ ...formData, descricao: e.target.value })}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, descricao: e.target.value })}
               required
             />
           </div>
@@ -130,7 +130,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, onSave, token }) => {
             <select
               id="categoria-select"
               value={formData.categoria}
-              onChange={(e) => setFormData({ ...formData, categoria: e.target.value })}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFormData({ ...formData, categoria: e.target.value })}
               required
             >
               <option value="">Selecione uma categoria</option>
@@ -146,7 +146,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, onSave, token }) => {
             <input
               type="date"
               value={formData.data}
-              onChange={(e) => setFormData({ ...formData, data: e.target.value })}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, data: e.target.value })}
               required
               title="Selecione a data da movimentação"
               placeholder="Selecione a data"

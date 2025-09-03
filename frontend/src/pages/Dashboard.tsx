@@ -164,7 +164,7 @@ const Dashboard = () => {
                         type="text"
                         placeholder="Buscar por descrição ou categoria..."
                         value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
                       />
                     </div>
                   </div>
@@ -173,7 +173,7 @@ const Dashboard = () => {
                     <select
                       id="tipo-select"
                       value={selectedType}
-                      onChange={(e) => setSelectedType(e.target.value)}
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedType(e.target.value)}
                     >
                       <option value="Todas">Todas</option>
                       <option value="entrada">Entradas</option>
@@ -185,7 +185,7 @@ const Dashboard = () => {
                     <select
                       id="categoria-select"
                       value={selectedCategory}
-                      onChange={(e) => setSelectedCategory(e.target.value)}>
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedCategory(e.target.value)}>
                       <option value="Todas">Todas</option>
                       {/* Renderizar categorias dinamicamente se desejar */}
                       <option value="Vendas">Vendas</option>

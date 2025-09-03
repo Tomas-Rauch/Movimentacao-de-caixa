@@ -52,7 +52,7 @@ const ResetPassword: React.FC = () => {
               type="password"
               id="novaSenha"
               value={novaSenha}
-              onChange={(e) => setNovaSenha(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNovaSenha(e.target.value)}
               required
             />
           </div>
@@ -63,7 +63,7 @@ const ResetPassword: React.FC = () => {
               type="password"
               id="confirmarSenha"
               value={confirmarSenha}
-              onChange={(e) => setConfirmarSenha(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmarSenha(e.target.value)}
               required
             />
           </div>

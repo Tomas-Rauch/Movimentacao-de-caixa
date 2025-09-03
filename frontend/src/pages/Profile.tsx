@@ -272,19 +272,19 @@ const Profile: React.FC = () => {
                       <label>Nome de Usuário</label>
                       <div className="input-icon">
                         <User size={20} />
-                        <input type="text" placeholder="Digite seu nome" value={nome} onChange={e => setNome(e.target.value)} />
+                        <input type="text" placeholder="Digite seu nome" value={nome} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNome(e.target.value)} />
                       </div>
                     </div>
                     <div className="form-group">
                       <label>Email</label>
                       <div className="input-icon">
                         <Mail size={20} />
-                        <input type="email" placeholder="exemplo@gmail.com" value={email} onChange={e => setEmail(e.target.value)} />
+                        <input type="email" placeholder="exemplo@gmail.com" value={email} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
                       </div>
                     </div>
                     <div className="form-group full">
-                      <label>Nível</label>
-                      <input type="text" value={perfil === 'admin' ? 'ADMIN' : 'FUNCIONÁRIO'} disabled />
+                      <label htmlFor="perfil-input">Nível</label>
+                      <input id="perfil-input" type="text" value={perfil === 'admin' ? 'ADMIN' : 'FUNCIONÁRIO'} disabled />
                     </div>
                   </div>
                 </div>
@@ -315,7 +315,7 @@ const Profile: React.FC = () => {
                                         <td>{user.perfil === 'admin' ? 'Admin' : 'Funcionário'}</td>
                                         <td>
                                             {currentUserId && user.id !== currentUserId && user.nome.toLowerCase() !== 'cândido' && (
-                                                <button className="delete-btn" onClick={() => handleDeleteUser(user.id)}>
+                                                <button type="button" aria-label="Excluir usuário" className="delete-btn" onClick={() => handleDeleteUser(user.id)}>
                                                     <Trash2 size={18} />
                                                 </button>
                                             )}
@@ -335,26 +335,26 @@ const Profile: React.FC = () => {
                   <label>Nome do Usuário</label>
                   <div className="input-icon">
                     <User size={20} />
-                    <input type="text" placeholder="Digite o nome do usuário" value={novoNome} onChange={e => setNovoNome(e.target.value)} />
+                    <input type="text" placeholder="Digite o nome do usuário" value={novoNome} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNovoNome(e.target.value)} />
                   </div>
                 </div>
                 <div className="form-group">
                   <label>Email</label>
                   <div className="input-icon">
                     <Mail size={20} />
-                    <input type="email" placeholder="Digite o email do usuário" value={novoEmail} onChange={e => setNovoEmail(e.target.value)} />
+                    <input type="email" placeholder="Digite o email do usuário" value={novoEmail} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNovoEmail(e.target.value)} />
                   </div>
                 </div>
                 <div className="form-group">
                   <label>Senha</label>
                   <div className="input-icon">
                     <KeyRound size={20} />
-                    <input type="password" placeholder="Defina uma senha" value={novoSenha} onChange={e => setNovoSenha(e.target.value)} />
+                    <input type="password" placeholder="Defina uma senha" value={novoSenha} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNovoSenha(e.target.value)} />
                   </div>
                 </div>
                 <div className="form-group">
-                  <label>Nível</label>
-                  <select value={novoPerfil} onChange={e => setNovoPerfil(e.target.value)}>
+                  <label htmlFor="novo-perfil-select">Nível</label>
+                  <select id="novo-perfil-select" value={novoPerfil} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setNovoPerfil(e.target.value)}>
                     <option value="admin">ADMIN</option>
                     <option value="user">FUNCIONÁRIO</option>
                   </select>
