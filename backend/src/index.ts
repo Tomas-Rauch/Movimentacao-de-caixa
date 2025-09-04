@@ -12,7 +12,27 @@ import userRoutes from './routes/userRoutes';
 const app = express()
 
 // Middlewares
-app.use(cors())
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://movimentacao-de-caixa-production-1e26.up.railway.app'
+];
+
+const corsOptions: cors.CorsOptions = {
+  origin: (origin, callback) => {
+    if (origin && allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else if (!origin) {
+      // Permitir requisições sem origem (ex: Postman, mobile apps)
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 app.use(express.json())
 
 // Rotas
