@@ -97,14 +97,12 @@ export class AuthService {
       .update({ reset_token: token, reset_token_expiracao: expiry.toISOString() })
       .eq('id', usuario.id)
 
-   const link = `http://localhost:5173/reset-password?token=${token}`
+   const link = `${process.env.FRONTEND_URL}/reset-password?token=${token}`
     await sendEmail(
       usuario.email,
       'Recuperação de senha',
       `<p>Para redefinir sua senha, clique no link: <a href="${link}">${link}</a></p>`
     ) 
-
-
   }
 
   static async resetPassword(token: string, newPassword: string) {

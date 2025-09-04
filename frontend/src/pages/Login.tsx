@@ -169,9 +169,9 @@ const Login: React.FC = () => {
               value={emailRecuperacao}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmailRecuperacao(e.target.value)}
             />
-            <button onClick={handleRecuperarSenha}>Enviar link</button>
+            <button type="button" onClick={handleRecuperarSenha}>Enviar link</button>
             {recuperacaoMsg && <p>{recuperacaoMsg}</p>}
-            <button onClick={() => setModalAberto(false)}>Fechar</button>
+            <button type="button" onClick={() => setModalAberto(false)}>Fechar</button>
           </div>
         </div>
       )}

@@ -60,12 +60,16 @@ export const authController = {
   },
 
   async forgotPassword(req: Request, res: Response) {
-    const { email } = req.body
+    const { email } = req.body;
     try {
-      await AuthService.forgotPassword(email)
-      res.status(200).json({ message: 'Se o email existir, um link foi enviado.' })
+      await AuthService.forgotPassword(email);
+      // A resposta é 204 para não revelar se o e-mail existe ou não.
+      res.status(204).send();
     } catch (error) {
-      res.status(400).json({ message: (error as Error).message })
+      console.error('Falha ao enviar email de recuperação:', error);
+      // Mesmo em caso de erro, respondemos com sucesso para não vazar informações.
+      // O log acima é crucial para a depuração.
+      res.status(204).send();
     }
   },
 
