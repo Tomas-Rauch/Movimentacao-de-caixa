@@ -8,6 +8,20 @@ A aplicação conta com um sistema de autenticação seguro, perfis de usuário 
 
 ---
 
+## Observações Importantes (ATENÇÃO)
+
+- **Para fazer login na conta principal de admin, utilize as credencias que enviamos nos comentários da atividade no classroom. Logando nessa conta você terá acesso as funcionalidades do projeto, como o CRUD de movimentações financeiras, visualização de saldo total e movimentações, listagem, criação e edição de usuários no sistema, etc. 
+- **Essa conta é a principal conta de admin do sistema, nela é possível criar novos usuários, podendo ser outros admins ou funcionários comuns, e também editar e excluir usuários já existentes, e essa conta de admin principal não tem como ser excluída também.
+
+- **Para testar a recuperação de senha, pode ser utilizando qualquer email de contas cadastradas na aplicação, caso o email realmente exista, será enviado um link para a recuperação de email. 
+
+-- **ATENÇÃO: O EMAIL DE RECUPERAÇÃO DE SENHA PROVAVELMENTE IRÁ CAIR NA CAIXA DE SPAM, ENTÃO É NECESSÁRIO OLHAR LÁ PARA VER O EMAIL E CRIAR UMA SENHA NOVA.
+
+Depois de acessar o link para criar uma senha nova, você será direcionado para uma nova página, onde você digita e confirma a senha nova, então você deverá voltar para a aplicação principal na tela de login para fazer login novamente com a senha nova que foi definida e o email. 
+
+-- **Como falamos no comentário enviado no classroom, criamos um gmail para você acessar caso queira testar a recuperação de senha nele, enviamos as credenciais do gmail lá no comentário, é só fazer login normalmente, não é necessária autenticação em 2 fatores. Depois de logado no gmail, a mensagem de recuperação de senha provavelmente irá estar na caixa de SPAM, então tem que conferir lá.
+
+
 ## ✨ Funcionalidades
 
 - **Autenticação de Usuários:** Sistema completo de login com tokens JWT (Access e Refresh) e recuperação de senha via e-mail.
@@ -41,88 +55,7 @@ O projeto é dividido em duas partes principais: o frontend e o backend, cada um
 - **Nodemailer:** Para o serviço de envio de e-mails de recuperação de senha.
 
 **Ambiente e Orquestração:**
-- **Docker & Docker Compose:** Para criar um ambiente de desenvolvimento conteinerizado e consistente.
-
----
-
-## 🚀 Instalação e Execução
-
-Siga os passos abaixo para configurar e executar o projeto em seu ambiente local.
-
-### Pré-requisitos
-
-- **Node.js e NPM:** [https://nodejs.org/](https://nodejs.org/)
-- **Docker e Docker Compose:** [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
-
-### 1. Clonar o Repositório
-
-```bash
-git clone https://github.com/seu-usuario/Movimentacao-de-caixa.git
-cd Movimentacao-de-caixa
-```
-
-### 2. Configurar Variáveis de Ambiente (Backend)
-
-O backend precisa de um arquivo `.env` com credenciais para se conectar ao Supabase e outros serviços. Navegue até a pasta `backend` e crie uma cópia do arquivo de exemplo:
-
-```bash
-cd backend
-cp .env.example .env
-```
-
-Agora, abra o arquivo `.env` e preencha as seguintes variáveis com suas credenciais:
-
-```env
-# Credenciais do seu projeto Supabase
-SUPABASE_URL=https://seu-projeto.supabase.co
-SUPABASE_KEY=sua-chave-anon-publica
-
-# Chaves secretas para os tokens JWT (use valores longos e aleatórios)
-JWT_ACCESS_SECRET=seu_super_secret_access_token
-JWT_REFRESH_SECRET=seu_super_secret_refresh_token
-
-# Configuração do seu serviço de e-mail (ex: Mailtrap, SendGrid)
-SMTP_HOST=smtp.example.com
-SMTP_USER=seu-usuario-smtp
-SMTP_PASS=sua-senha-smtp
-
-# Porta em que o backend irá rodar
-PORT=3000
-```
-
-### 3. Instalar as Dependências
-
-É necessário instalar as dependências para o frontend e o backend separadamente.
-
-```bash
-# Na pasta raiz do projeto, instale as dependências do backend
-cd backend
-npm install
-
-# Volte para a raiz e instale as dependências do frontend
-cd ../frontend
-npm install
-```
-
-### 4. Rodar a Aplicação com Docker Compose
-
-A maneira mais simples de iniciar a aplicação é usando o Docker Compose, que orquestrará os contêineres do frontend e do backend.
-
-Na pasta raiz do projeto, execute o seguinte comando:
-
-```bash
-docker-compose up --build
-```
-
-Opcionalmente, para rodar em modo "detached" (em segundo plano), use a flag `-d`:
-
-```bash
-docker-compose up --build -d
-```
-
-Aplicação estará disponível nos seguintes endereços:
-- **Frontend:** https://Movimentacao-de-caixa.vercel.app
-- **Backend:** https://Movimentacao-de-caixa.onrender.com
+- **Railway:** Frontend e backend do projeto estão hospedados no railway.
 
 ---
 
