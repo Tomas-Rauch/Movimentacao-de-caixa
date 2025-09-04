@@ -12,7 +12,7 @@ export async function sendEmail(to: string, subject: string, html: string) {
   });
 
   await transporter.sendMail({
-    from: `"Movimentação de Caixa" <${process.env.SMTP_USER}>`,
+    from: `"Movimentação de Caixa" <${process.env.EMAIL_FROM}>`,
     to,
     subject,
     html,
